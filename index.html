@@ -244,6 +244,7 @@
         let currentDifficulty = 'normal'; // Default difficulty
         let currentQuizType = ''; // 'dictionary' or 'thesaurus'
         let currentQuestionType = ''; // 'synonym' or 'antonym' for thesaurus quiz
+        let currentMode = 'dictionary'; // Keep track of the current display mode
 
         const quizWords = [
             "apple", "banana", "cat", "dog", "house", "tree", "water", "sun", "moon", "star",
@@ -262,6 +263,18 @@
             "intricate", "jolly", "kudos", "limpid", "modest", "nimble", "ornate", "placid", "quiver",
             "rustic", "subtle", "tangible", "unique", "vast", "witty", "exquisite", "youthful", "zenith"
         ];
+
+        // Create an Audio object for the page turn sound
+        // IMPORTANT: Replace 'path/to/your/pageturn.mp3' with the actual URL of your hosted MP3 file.
+        // For example: 'https://github.com/yourusername/yourrepo/raw/main/sounds/pageturn.mp3'
+        const pageTurnAudio = new Audio('pageturn.mp3'); 
+
+        // Function to play a page turn sound
+        function playPageTurnSound() {
+            // Reset the audio to the beginning and play it
+            pageTurnAudio.currentTime = 0; 
+            pageTurnAudio.play().catch(e => console.error("Error playing page turn audio:", e));
+        }
 
         // Function to show messages (e.g., errors, no results)
         function showMessage(message, type = 'error') {
@@ -301,6 +314,9 @@
 
         // Function to switch between Dictionary and Thesaurus modes
         function switchMode(mode) {
+            if (currentMode !== mode) { // Only play sound if mode is actually changing
+                playPageTurnSound();
+            }
             currentMode = mode;
             hideMessage();
             resultsDiv.innerHTML = ''; // Clear previous results
@@ -746,7 +762,7 @@
                 if (currentQuizType === 'dictionary' && button.textContent === currentQuizWord) {
                     button.classList.add('correct');
                 } else if (currentQuizType === 'thesaurus' && button.textContent === actualCorrectAnswer) {
-                     button.classList.add('correct');
+                    button.classList.add('correct');
                 } else {
                     button.classList.add('opacity-50');
                 }
