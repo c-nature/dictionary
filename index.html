@@ -264,16 +264,24 @@
             "rustic", "subtle", "tangible", "unique", "vast", "witty", "exquisite", "youthful", "zenith"
         ];
 
-        // Create an Audio object for the page turn sound
-        // IMPORTANT: Replace 'path/to/your/pageturn.mp3' with the actual URL of your hosted MP3 file.
+        // Create Audio objects for the sound effects
+        // IMPORTANT: Replace 'pageturn.mp3' and 'popsound.mp3' with the actual URLs of your hosted MP3 files.
         // For example: 'https://github.com/yourusername/yourrepo/raw/main/sounds/pageturn.mp3'
         const pageTurnAudio = new Audio('pageturn.mp3'); 
+        const popSoundAudio = new Audio('popsound.mp3');
 
         // Function to play a page turn sound
         function playPageTurnSound() {
             // Reset the audio to the beginning and play it
             pageTurnAudio.currentTime = 0; 
             pageTurnAudio.play().catch(e => console.error("Error playing page turn audio:", e));
+        }
+
+        // Function to play a pop sound
+        function playPopSound() {
+            // Reset the audio to the beginning and play it
+            popSoundAudio.currentTime = 0; 
+            popSoundAudio.play().catch(e => console.error("Error playing pop sound audio:", e));
         }
 
         // Function to show messages (e.g., errors, no results)
@@ -339,6 +347,9 @@
 
         // Main function to search for a word
         async function searchWord() {
+            // Play pop sound when search button is pressed
+            playPopSound(); 
+
             const word = wordInput.value.trim().toLowerCase();
             if (!word) {
                 showMessage("Please enter a word to search.");
@@ -792,6 +803,7 @@
 
         // Main Quiz button now shows quiz type selection
         quizModeButton.addEventListener('click', () => {
+            playPopSound(); // Play pop sound when quiz button is pressed
             dictionaryThesaurusSection.classList.add('hidden');
             quizSection.classList.add('hidden'); // Hide the main quiz section initially
             quizTypeSelection.classList.remove('hidden'); // Show quiz type selection
@@ -800,10 +812,12 @@
 
         // Quiz Type Selection button listeners
         startDictionaryQuizButton.addEventListener('click', () => {
+            playPopSound(); // Play pop sound when starting dictionary quiz
             startQuiz('dictionary');
         });
 
         startThesaurusQuizButton.addEventListener('click', () => {
+            playPopSound(); // Play pop sound when starting thesaurus quiz
             startQuiz('thesaurus');
         });
 
